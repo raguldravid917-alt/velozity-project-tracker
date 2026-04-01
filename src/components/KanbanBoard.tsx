@@ -31,31 +31,39 @@ export default function KanbanBoard() {
   };
 
   return (
-    <div className="flex-1 flex gap-6 overflow-x-auto pb-4 h-full">
+    <div className="flex-1 flex gap-6 overflow-x-auto pb-8 h-full items-start">
       {COLUMNS.map((status) => {
         const columnTasks = tasks.filter((t) => t.status === status);
         const isHovered = activeDropColumn === status;
 
         return (
+          // 🖤 Sleek Dark Column
           <div
             key={status}
             onDragOver={(e) => handleDragOver(e, status)}
             onDragLeave={handleDragLeave}
             onDrop={(e) => handleDrop(e, status)}
-            className={`flex flex-col flex-shrink-0 w-[320px] bg-gray-100/80 rounded-2xl border-2 transition-all duration-200 ${
-              isHovered ? 'border-blue-400 bg-blue-50/50 shadow-inner' : 'border-transparent'
+            className={`flex flex-col flex-shrink-0 w-[320px] rounded-2xl border transition-all duration-300 ${
+              isHovered 
+                ? 'bg-[#18181b] border-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.2)] scale-[1.02]' // Dragging highlight
+                : 'bg-[#121214] border-white/10' // Normal dark state
             }`}
           >
-            <div className="flex justify-between items-center p-4 mb-2">
-              <h2 className="font-bold text-gray-700 text-sm uppercase tracking-wide">{status}</h2>
-              <span className="bg-gray-200 text-gray-700 text-xs font-bold px-2.5 py-1 rounded-full">
+            {/* Column Header */}
+            <div className="flex justify-between items-center p-4 mb-2 border-b border-white/5">
+              <h2 className="font-bold text-gray-300 tracking-wider text-sm uppercase">
+                {status}
+              </h2>
+              <span className="bg-white/5 text-gray-400 text-xs font-bold px-3 py-1 rounded-full border border-white/10">
                 {columnTasks.length}
               </span>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-4 pb-4">
+            {/* Tasks Area */}
+            <div className="flex-1 overflow-y-auto px-3 pb-4 pt-2 space-y-3">
               {columnTasks.length === 0 ? (
-                <div className="h-28 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center text-gray-400 text-sm font-medium">
+                // 👻 Dark Empty State
+                <div className="h-24 border-2 border-dashed border-white/10 rounded-xl flex items-center justify-center text-gray-500 text-sm font-medium">
                   No tasks here
                 </div>
               ) : (

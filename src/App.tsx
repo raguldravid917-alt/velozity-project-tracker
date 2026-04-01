@@ -18,12 +18,14 @@ export default function App() {
   }, [tasks.length, setTasks]);
 
   return (
-    <div className="min-h-screen bg-white flex flex-col overflow-hidden font-sans">
+    // 🌌 Deep Space Dark Background for entire App
+    <div className="min-h-screen bg-[#09090b] text-white font-sans selection:bg-indigo-500/30">
       <Navbar activeView={activeView} setActiveView={setActiveView} />
       
       <FilterBar />
       
-      <main className="flex-1 overflow-hidden p-6 flex flex-col bg-[#f4f5f7]">
+      {/* 🖤 Main content area with pure dark background */}
+      <main className="flex-1 overflow-hidden p-6 flex flex-col bg-[#09090b]">
         {activeView === 'kanban' && <KanbanBoard />}
         {activeView === 'list' && <ListView />}
         {activeView === 'timeline' && <TimelineView />}

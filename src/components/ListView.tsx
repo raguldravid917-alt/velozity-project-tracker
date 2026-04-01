@@ -3,7 +3,7 @@ import type { UIEvent } from 'react';
 import { format } from 'date-fns';
 import type { Status, Priority } from '../utils/generateData';
 import { useFilteredTasks } from '../utils/useFilteredTasks';
-import { useTaskStore } from '../store/useTaskStore'; // <-- இதுதான் மிஸ் ஆகி இருந்தது!
+import { useTaskStore } from '../store/useTaskStore';
 
 const ROW_HEIGHT = 64;
 const BUFFER = 5;
@@ -57,20 +57,24 @@ export default function ListView() {
   };
 
   return (
-    <div className="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full">
-      <div className="flex bg-gray-50 border-b border-gray-200 px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
-        <div className="w-1/2 cursor-pointer hover:text-blue-600" onClick={() => handleSort('title')}>
+    // 🖤 Dark List Container
+    <div className="flex-1 bg-[#121214] rounded-xl shadow-2xl border border-white/10 overflow-hidden flex flex-col h-full">
+      
+      {/* Table Header */}
+      <div className="flex bg-[#1c1c21] border-b border-white/10 px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">
+        <div className="w-1/2 cursor-pointer hover:text-indigo-400 transition-colors" onClick={() => handleSort('title')}>
           Task Title {sortKey === 'title' && (sortDir === 'asc' ? '↑' : '↓')}
         </div>
-        <div className="w-1/6 cursor-pointer hover:text-blue-600" onClick={() => handleSort('priority')}>
+        <div className="w-1/6 cursor-pointer hover:text-indigo-400 transition-colors" onClick={() => handleSort('priority')}>
           Priority {sortKey === 'priority' && (sortDir === 'asc' ? '↑' : '↓')}
         </div>
         <div className="w-1/6">Status (Inline Edit)</div>
-        <div className="w-1/6 cursor-pointer hover:text-blue-600" onClick={() => handleSort('dueDate')}>
+        <div className="w-1/6 cursor-pointer hover:text-indigo-400 transition-colors" onClick={() => handleSort('dueDate')}>
           Due Date {sortKey === 'dueDate' && (sortDir === 'asc' ? '↑' : '↓')}
         </div>
       </div>
 
+      {/* Table Body */}
       <div 
         className="flex-1 overflow-y-auto custom-scrollbar"
         onScroll={handleScroll}
@@ -78,23 +82,26 @@ export default function ListView() {
         <div style={{ height: `${totalHeight}px`, position: 'relative' }}>
           <div style={{ transform: `translateY(${offsetY}px)`, position: 'absolute', width: '100%' }}>
             {visibleTasks.map((task) => (
-              <div key={task.id} className="flex items-center px-6 border-b border-gray-100 hover:bg-gray-50 transition-colors" style={{ height: `${ROW_HEIGHT}px` }}>
-                <div className="w-1/2 font-semibold text-gray-800 text-sm">{task.title}</div>
+              // 🖤 Dark Row Hover
+              <div key={task.id} className="flex items-center px-6 border-b border-white/5 hover:bg-[#18181b] transition-colors" style={{ height: `${ROW_HEIGHT}px` }}>
+                <div className="w-1/2 font-semibold text-gray-200 text-sm">{task.title}</div>
                 <div className="w-1/6">
-                  <span className={`text-[10px] font-bold px-2 py-1 rounded-md border uppercase ${
-                    task.priority === 'Critical' ? 'bg-red-50 text-red-700 border-red-200' :
-                    task.priority === 'High' ? 'bg-orange-50 text-orange-700 border-orange-200' :
-                    task.priority === 'Medium' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
-                    'bg-green-50 text-green-700 border-green-200'
+                  {/* Dark Priority Badges */}
+                  <span className={`text-[10px] font-bold px-2 py-1 rounded border uppercase ${
+                    task.priority === 'Critical' ? 'bg-red-500/10 text-red-400 border-red-500/20' :
+                    task.priority === 'High' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' :
+                    task.priority === 'Medium' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
+                    'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                   }`}>
                     {task.priority}
                   </span>
                 </div>
                 <div className="w-1/6">
+                  {/* Dark Select Dropdown */}
                   <select 
                     value={task.status}
                     onChange={(e) => updateTaskStatus(task.id, e.target.value as Status)}
-                    className="text-xs font-semibold bg-white border border-gray-300 rounded px-2 py-1 outline-none focus:border-blue-500 cursor-pointer"
+                    className="text-xs font-semibold bg-[#1c1c21] text-gray-300 border border-white/10 rounded px-2 py-1.5 outline-none focus:border-indigo-500 cursor-pointer"
                   >
                     <option value="To Do">To Do</option>
                     <option value="In Progress">In Progress</option>
@@ -102,7 +109,7 @@ export default function ListView() {
                     <option value="Done">Done</option>
                   </select>
                 </div>
-                <div className="w-1/6 text-sm text-gray-600 font-medium">
+                <div className="w-1/6 text-sm text-gray-400 font-medium">
                   {format(new Date(task.dueDate), 'MMM dd, yyyy')}
                 </div>
               </div>

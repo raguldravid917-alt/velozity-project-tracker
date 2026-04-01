@@ -16,19 +16,21 @@ export default function Navbar({ activeView, setActiveView }: NavbarProps) {
   }, []);
 
   return (
-    <nav className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shadow-sm">
+    // 🖤 Dark Navbar Background with subtle border
+    <nav className="bg-[#121214] border-b border-white/10 px-6 py-4 flex items-center justify-between shadow-sm">
       <div className="flex items-center space-x-8">
-        <h1 className="text-xl font-extrabold text-gray-800 tracking-tight">Velozity Tracker</h1>
+        <h1 className="text-xl font-extrabold text-white tracking-tight">Velozity Tracker</h1>
         
-        <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg border border-gray-200">
+        {/* 🎛️ Dark Toggle Buttons */}
+        <div className="flex space-x-1 bg-[#09090b] p-1 rounded-lg border border-white/10">
           {['kanban', 'list', 'timeline'].map((view) => (
             <button
               key={view}
               onClick={() => setActiveView(view as any)}
               className={`px-4 py-1.5 rounded-md text-sm font-semibold capitalize transition-all duration-200 ${
                 activeView === view 
-                  ? 'bg-white shadow-sm text-blue-600' 
-                  : 'text-gray-500 hover:text-gray-800'
+                  ? 'bg-indigo-600 shadow-sm text-white' // Active button
+                  : 'text-gray-400 hover:text-white hover:bg-white/5' // Inactive button
               }`}
             >
               {view}
@@ -38,14 +40,15 @@ export default function Navbar({ activeView, setActiveView }: NavbarProps) {
       </div>
 
       <div className="flex items-center space-x-3">
-        <span className="text-sm text-gray-500 font-medium">
+        <span className="text-sm text-gray-400 font-medium">
           {viewers} people are viewing this board
         </span>
         <div className="flex -space-x-2">
           {[...Array(viewers)].map((_, i) => (
             <div 
               key={i} 
-              className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-xs font-bold text-white shadow-sm" 
+              // Dark border around avatars to match navbar background
+              className="w-8 h-8 rounded-full border-2 border-[#121214] flex items-center justify-center text-xs font-bold text-white shadow-sm" 
               style={{ backgroundColor: `hsl(${i * 60 + 200}, 70%, 50%)` }}
             >
               U{i + 1}
